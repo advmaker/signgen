@@ -84,6 +84,9 @@ class SignatureGenerator
 				case is_array($value):
 					$valueToAdd = $this->parseArray($value, ++$level);
 					break;
+
+				case is_null($value):
+					break;
 					
 				default:
 					if (!$this->ignoreInvalidValues)
