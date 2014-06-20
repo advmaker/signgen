@@ -26,9 +26,11 @@ use \InvalidArgumentException;
  */
 class SignatureGenerator
 {
+	const MAXIMUM_RECURSION_DEPTH = 2;
+	const MAXIMUM_RECURSION_DEPTH_FOR_SUBFORM = 3;
+
 	private $salt = "";
 	private $ignoreInvalidValues = false;
-	private $ignoreLevelDeeperThan = 2;
 
 	/**
 	 * @param string $salt
@@ -52,17 +54,17 @@ class SignatureGenerator
 	 * @throws InvalidArgumentException
 	 * @return string
 	 */
-	public function assemble(array $params)
+	public function assemble(array $params, $maxLevelDepth = self::MAXIMUM_RECURSION_DEPTH)
 	{
 		if (empty($params))
 			throw new InvalidArgumentException("Empty params passed!");
 
-		return sha1($this->parseArray($params, 1) . ";" . $this->salt);
+		return sha1($this->parseArray($params, 1, $maxLevelDepth) . ";" . $this->salt);
 	}
 
-	private function parseArray(array $params, $level)
+	private function parseArray(array $params, $level, $maxLevelDepth)
 	{
-		if ($level > $this->ignoreLevelDeeperThan)
+		if ($level > $maxLevelDepth)
 			return "";
 
 		$paramsToSign = array();
@@ -82,7 +84,7 @@ class SignatureGenerator
 					break;
 
 				case is_array($value):
-					$valueToAdd = $this->parseArray($value, $level + 1);
+					$valueToAdd = $this->parseArray($value, $level + 1, $maxLevelDepth);
 					break;
 
 				case is_null($value):
