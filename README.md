@@ -1,7 +1,7 @@
 Signgen
 =======
 
-Forked from `devcookies/signgen` due it's removal from github.
+Forked from https://github.com/aletyagin/signgen, which is `devcookies/signgen` fork due it's removal from github.
 
 Signature generator for various devcookies software API
 
