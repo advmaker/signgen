@@ -1,6 +1,8 @@
 Signgen
 =======
 
+Forked from `devcookies/signgen` due it's removal from github.
+
 Signature generator for various devcookies software API
 
 PHP
@@ -22,9 +24,4 @@ Code example:
 	);
 	
 	$requestParams["signature"] = $generator->assemble($requestParams);
-	?>
 
-License
--------
-
-MIT License
